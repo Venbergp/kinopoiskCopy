@@ -1,1 +1,32 @@
-<p>film-info works!</p>
+
+<div class="container" style="margin-top: 30px">
+  <div class="row">
+    <div class="col-md-4">
+      <img [src]="filmInfo.bigImg" style="border-radius: 10px">
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title"> Информация о фильме {{filmInfo.name}}</h3>
+          <div class="row">
+            <div class="col">
+              <h5 class="card-subtitle text-muted" style="margin-top: 10px"> Год производства</h5>
+              <p class="card-text"> {{filmInfo.year}}</p>
+            </div>
+            <div class="col">
+              <h5 class="card-subtitle text-muted" style="margin-top: 10px"> Оценка критиков</h5>
+              <p class="card-text"> {{filmInfo.rating}}</p>
+            </div>
+          </div>
+
+
+          <h5 class="card-subtitle text-muted" style="margin-top: 10px"> Описание</h5>
+          <p class="card-text"> {{filmInfo.description}}</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary" style="margin-top: 30px"> Редактировать информацию о фильме</button>
+    </div>
+
+  </div>
+
+</div>

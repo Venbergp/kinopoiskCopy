@@ -3,9 +3,9 @@
 
 <div class="list-group" style="margin-bottom: 20px">
   <div class="list-group-item list-group-item-dark">
-    <div class="contaier">
+    <div class="">
       <div class="row">
-        <h5> {{film.name}}</h5>
+        <h5 [routerLink]="['/films', film.id.toString()]"> {{film.name}}</h5>
       </div>
       <div class="row">
 

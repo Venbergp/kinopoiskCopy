@@ -9,6 +9,7 @@ export class FilmItemComponent implements OnInit {
 
   @Input() film :
     {
+      id: number | string,
       img: string,
       bigImg: string,
       name: number | string,
@@ -16,6 +17,7 @@ export class FilmItemComponent implements OnInit {
       year: number | string,
       description: string
     } = {
+    id: '',
     img: '',
     bigImg: '',
     name: '',
