@@ -1,0 +1,28 @@
+
+
+
+<div class="list-group" style="margin-bottom: 20px">
+  <div class="list-group-item list-group-item-dark">
+    <div class="contaier">
+      <div class="row">
+        <h5> {{film.name}}</h5>
+      </div>
+      <div class="row">
+
+        <div class="col-md-2" style="text-align: center">
+          <img [src]="film.img" alt="avatar" >
+        </div>
+        <div class="col-md-3">
+          <p> Рейтинг: {{film.rating}}</p>
+          <p> Год выпуска: {{film.year}}</p>
+        </div>
+        <div class="col-md-5">
+          <h5> Описание фильма </h5>
+          <p> {{film.description}}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
