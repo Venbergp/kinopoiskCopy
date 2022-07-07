@@ -23,12 +23,13 @@ export class FilmListComponent implements OnInit, OnChanges {
   }
 
   constructor(private dataService: GetDataService) {
-    this.films = this.dataService.getFilmList()
-    this.filteredFilms = this.films
+
   }
 
   ngOnInit(): void {
 
+    this.films = this.dataService.getFilmList()
+    this.filteredFilms = this.films
 
     // const search$ = new Observable(observer => {
     //   let search = document.getElementById('search')

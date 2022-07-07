@@ -10,6 +10,8 @@ import { FilmInfoComponent } from './film-info/film-info.component';
 import {GetDataService} from "./get-data.service";
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
+import {HttpInterceptorService} from "./http-interceptor.service";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,9 +25,15 @@ import {AppRoutingModule} from "./app-routing.module";
     BrowserModule,
     FormsModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [GetDataService],
-  bootstrap: [AppComponent]
+  providers: [
+    GetDataService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
