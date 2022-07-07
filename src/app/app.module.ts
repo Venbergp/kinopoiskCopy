@@ -5,13 +5,17 @@ import { AppComponent } from './app.component';
 import { FilmListComponent } from './film-list/film-list.component';
 import { FilmItemComponent } from './film-list/film-item/film-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FilmInfoComponent } from './film-info/film-info.component';
 import {GetDataService} from "./get-data.service";
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpInterceptorService} from "./http-interceptor.service";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -26,7 +30,12 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/h
     FormsModule,
     RouterModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule
   ],
   providers: [
     GetDataService,

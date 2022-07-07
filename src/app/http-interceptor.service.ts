@@ -75,6 +75,7 @@ export class HttpInterceptorService implements HttpInterceptor{
 
 
     if (req.method === "GET"){
+
       let request : Observable<HttpEvent<any>> = new Observable((obs) => {
         setTimeout(() => {
           let resp = new HttpResponse({body: localStorage.getItem('localFilmList')})
@@ -87,8 +88,6 @@ export class HttpInterceptorService implements HttpInterceptor{
     }
 
     if (req.method === "POST") {
-
-
 
       let newFilmInfo = req.body
       let s : string | null = localStorage.getItem("localFilmList")

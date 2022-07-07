@@ -19,16 +19,12 @@ export class GetDataService {
 
 
   loadFilms() : any {
-
-
-
     this.http.get('http://localhost:4200/films').subscribe(x => {
       this.films = JSON.parse(x.toString())
     })
   }
 
   getFilmList() : Promise<any[]>{
-
 
     return new Promise(resolve => {
       let films
@@ -41,12 +37,24 @@ export class GetDataService {
 
   }
 
+
   getFilmById(id : Number) {
-    for (let film of this.films) {
-      if (film.id == id) {
-        return film
-      }
-    }
+
+    return new Promise(resolve => {
+      let films
+      let film
+
+      this.http.get('http://localhost:4200/films').subscribe(x => {
+        films = JSON.parse(x.toString())
+        for (let film of films) {
+          if (film.id == id) {
+            resolve(film)
+          }
+        }
+      })
+    })
+
+
   }
 
 }

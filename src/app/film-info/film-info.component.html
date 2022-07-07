@@ -13,13 +13,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {{filmInfo.name}}
-        <form action="">
 
-          <!-- Форма изменения -->
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Название фильма</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1">
+        <!-- Форма изменения -->
+        <form [formGroup]="filmForm" action="">
+          <div class="row">
+            <mat-form-field >
+              <mat-label>Имя</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field >
+              <mat-label>Имя</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
           </div>
 
           <div class="mb-3">
@@ -28,6 +36,10 @@
           </div>
 
         </form>
+
+
+        <!-- Конец формы -->
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
