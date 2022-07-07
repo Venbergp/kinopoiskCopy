@@ -17,7 +17,10 @@ export class FilmInfoComponent implements OnInit {
     rating: new FormControl(''),
     year: new FormControl(''),
     description: new FormControl(''),
-    awardsCheckbox: new FormControl()
+    awardsCheckbox: new FormControl(),
+    awards: new FormArray([
+      new FormControl('')
+    ])
   })
 
 
@@ -38,17 +41,17 @@ export class FilmInfoComponent implements OnInit {
           description: new FormControl(this.filmInfo.description),
           awardsCheckbox: new FormControl(false),
           awards: new FormArray([
-
+            new FormControl('')
           ])
         })
 
-        console.log(this.filmInfo)
+        console.log(this.filmInfo.awards)
         for (let i = 1; i <= this.filmInfo.awards.length; i++) {
 
-          let awardName : string = this.filmInfo.awards[i]
-          console.log(awardName)
+          let awardName = this.filmInfo["awards"][i - 1]
+          //console.log(awardName)
 
-          //(<FormArray> this.filmForm.controls['awards']).push()
+          (<FormArray>this.filmForm.controls['awards'])
         }
       })
     })

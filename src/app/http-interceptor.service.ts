@@ -71,9 +71,7 @@ export class HttpInterceptorService implements HttpInterceptor{
   }
 
   setDB = () => {
-    if (localStorage.getItem('localFilmList') == null) {
-      localStorage.setItem('localFilmList', JSON.stringify(this.films))
-    }
+    localStorage.setItem('localFilmList', JSON.stringify(this.films))
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
