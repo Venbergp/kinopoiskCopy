@@ -16,12 +16,6 @@
 
         <!-- Форма изменения -->
         <form [formGroup]="filmForm" action="">
-          <div class="row">
-            <mat-form-field >
-              <mat-label>Имя</mat-label>
-              <input matInput formControlName="name">
-            </mat-form-field>
-          </div>
 
           <div class="row">
             <mat-form-field >
@@ -30,10 +24,37 @@
             </mat-form-field>
           </div>
 
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <div class="row">
+            <mat-form-field >
+              <mat-label>Рейтинг фильма</mat-label>
+              <input matInput formControlName="rating">
+            </mat-form-field>
           </div>
+
+          <div class="row">
+            <mat-form-field >
+              <mat-label>Год выхода</mat-label>
+              <input matInput formControlName="year">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field >
+              <mat-label>Описание</mat-label>
+              <textarea
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                matInput
+                formControlName="description">
+              </textarea>
+            </mat-form-field>
+          </div>
+          <div class="row">
+              <mat-label>Разблокировать добавление наград</mat-label>
+              <mat-checkbox formControlName="awardsCheckbox"> </mat-checkbox>
+
+          </div>
+
 
         </form>
 

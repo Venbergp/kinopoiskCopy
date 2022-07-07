@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     BrowserAnimationsModule,
     MatInputModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatCheckboxModule
   ],
   providers: [
     GetDataService,

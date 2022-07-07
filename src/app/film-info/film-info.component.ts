@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GetDataService} from "../get-data.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-film-info',
@@ -12,19 +12,34 @@ export class FilmInfoComponent implements OnInit {
 
   filmInfo : any = {}
 
-
-  filmForm = this.fb.group({
-    name: [this.filmInfo.name],
-    rating: [this.filmInfo.rating],
-    year: [this.filmInfo.year]
+  filmForm : FormGroup = new FormGroup({
+    name: new FormControl(''),
+    rating: new FormControl(''),
+    year: new FormControl(''),
+    description: new FormControl(''),
+    awardsCheckbox: new FormControl()
   })
+
+
+
 
   constructor(private dataService : GetDataService, private route: ActivatedRoute, private fb: FormBuilder) {
 
     this.route.params.subscribe((params: Params) => {
       this.dataService.getFilmById(params['id']).then((value) => {
+
+
         this.filmInfo = value
         console.log(this.filmInfo)
+
+        this.filmForm = new FormGroup({
+          name: new FormControl(this.filmInfo.name),
+          rating: new FormControl(this.filmInfo.rating),
+          year: new FormControl(this.filmInfo.year),
+          description: new FormControl(this.filmInfo.description),
+          awardsCheckbox: new FormControl()
+        })
+
       })
     })
   }
