@@ -7,7 +7,7 @@ import {
   HttpRequest,
   HttpResponse
 } from "@angular/common/http";
-import {EMPTY, Observable, Observer, tap} from "rxjs";
+import {EMPTY, Observable, Observer, of, tap} from "rxjs";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor{
@@ -76,6 +76,7 @@ export class HttpInterceptorService implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    // return of(new HttpResponse({body: localStorage.getItem('localFilmList')}))
 
     if (req.method === "GET"){
 
