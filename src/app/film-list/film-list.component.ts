@@ -28,7 +28,14 @@ export class FilmListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    this.films = this.dataService.getFilmList()
+    //this.films = this.dataService.getFilmList()
+
+    this.dataService.getFilmList().then((value) => {
+      this.films = value
+      this.filteredFilms = this.films
+    })
+
+
     this.filteredFilms = this.films
 
     // const search$ = new Observable(observer => {

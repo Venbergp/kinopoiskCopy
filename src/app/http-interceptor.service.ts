@@ -71,49 +71,39 @@ export class HttpInterceptorService implements HttpInterceptor{
     }
   }
 
-  getDB = () => {
-    return localStorage.getItem('localFilmList')
-  }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    //  console.log(req)
+
+    if (req.method === "GET"){
+      let request : Observable<HttpEvent<any>> = new Observable((obs) => {
+        setTimeout(() => {
+          let resp = new HttpResponse({body: localStorage.getItem('localFilmList')})
+
+          obs.next(resp)
+        }, 200)
+      })
+
+      return request
+    }
+
+    if (req.method === "POST") {
 
 
-    let request : Observable<HttpEvent<any>> = new Observable((obs) => {
-      setTimeout(() => {
-        let resp = new HttpResponse({body: localStorage.getItem('localFilmList')})
 
-        obs.next(resp)
-      }, 0)
-    })
+      let newFilmInfo = req.body
+      let s : string | null = localStorage.getItem("localFilmList")
+      if (typeof s == "string") {
+        let filmList : any = JSON.parse(s)
+        for (let i = 0; i < filmList.length; i++) {
+          if (filmList[i].id == newFilmInfo.id) {
+            filmList[i] = newFilmInfo
+          }
+        }
+        localStorage.setItem("localFilmList", JSON.stringify(filmList))
+      }
 
-    return request
-    //
-    // return resp
+    }
 
-    // if (req.url == "https://localhost/films") {
-    //   console.log(111)
-    //
-    //   return next.handle(req).pipe(
-    //     tap(
-    //       (event) => {
-    //         if (event instanceof HttpResponse)
-    //           console.log(event)
-    //         // @ts-ignore
-    //         event.body = JSON.parse(localStorage.getItem('localFilmList'))
-    //       },
-    //       (err) => {
-    //         if (event instanceof HttpErrorResponse) {
-    //           console.log('error')
-    //         }
-    //         // @ts-ignore
-    //         err.body = JSON.parse(localStorage.getItem('localFilmList'))
-    //       }
-    //     )
-    //   )
-    // }
-
-    // return next.handle(req)
+    return  EMPTY
   }
 }
