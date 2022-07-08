@@ -19,6 +19,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import { TrimDirective } from './trim.directive';
+import { ProfileComponent } from './profile/profile.component';
+import {SuperuserAuthService} from "./superuser-auth.service";
+import {SuperuserAuthGuardService} from "./superuser-auth-guard.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { TrimDirective } from './trim.directive';
     FilmItemComponent,
     NavbarComponent,
     FilmInfoComponent,
-    TrimDirective
+    TrimDirective,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import { TrimDirective } from './trim.directive';
   ],
   providers: [
     GetDataService,
-    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
+    SuperuserAuthService,
+    SuperuserAuthGuardService
   ],
   bootstrap: [
     AppComponent

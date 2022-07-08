@@ -36,8 +36,9 @@ export class FilmInfoComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.dataService.getFilmById(params['id']).then((value) => {
 
-
         this.filmInfo = value
+
+        console.log(value)
 
         this.filmForm = new FormGroup({
           id: new FormControl(this.filmInfo.id),
@@ -51,19 +52,15 @@ export class FilmInfoComponent implements OnInit {
         })
 
 
-        console.log(this.filmForm.controls['awardsCheckbox'].getRawValue())
-        console.log(this.filmForm.controls)
-
-
+        //console.log(this.filmForm.controls['awardsCheckbox'].getRawValue())
+        //console.log(this.filmForm.controls)
 
         for (let i : number = 1; i <= this.filmInfo.awards.length; ++i) {
-
           let awardName = this.filmInfo.awards[i - 1];
           (<FormArray>this.filmForm.controls['awards']).push(new FormControl({value: awardName, disabled: true}));
         }
 
         this.awardsList = (<FormArray>this.filmForm.controls['awards']).controls
-
         this.checkboxStatus()
       })
     })
@@ -94,7 +91,7 @@ export class FilmInfoComponent implements OnInit {
   onSubmit(){
     // console.log(this.filmForm.value)
     // console.log(this.filmInfo)
-    if (this.filmForm.value.awardsCheckbox == true) {
+    if (this.filmForm.value.awardsCheckbox == true && this.filmForm.value.awards != undefined) {
       this.filmInfo.awards = this.filmForm.value.awards
     }
     this.filmInfo.description = this.filmForm.value.description
@@ -108,7 +105,6 @@ export class FilmInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.filmInfo)
   }
 
 }
