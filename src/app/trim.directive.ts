@@ -6,7 +6,7 @@ import {NgControl, NgModel} from "@angular/forms";
 })
 export class TrimDirective {
 
-  constructor( private ngControl: NgControl) {
+  constructor( ) {
 
   }
 
