@@ -21,21 +21,21 @@
           <div class="row">
             <mat-form-field >
               <mat-label>Имя</mat-label>
-              <input matInput formControlName="name">
+              <input trimDirective matInput formControlName="name">
             </mat-form-field>
           </div>
 
           <div class="row">
             <mat-form-field >
               <mat-label>Рейтинг фильма</mat-label>
-              <input matInput formControlName="rating">
+              <input trimDirective matInput formControlName="rating">
             </mat-form-field>
           </div>
 
           <div class="row">
             <mat-form-field >
               <mat-label>Год выхода</mat-label>
-              <input matInput formControlName="year">
+              <input trimDirective matInput formControlName="year">
             </mat-form-field>
           </div>
 
@@ -60,7 +60,7 @@
                 <div class="col-11">
                   <mat-form-field style="width: 100%">
                     <mat-label>Награда номер: {{idx + 1}}</mat-label>
-                    <input matInput [formControl]="awardTemplate">
+                    <input trimDirective matInput [formControl]="awardTemplate">
                   </mat-form-field>
                 </div>
 
