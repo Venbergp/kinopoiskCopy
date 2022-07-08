@@ -1,25 +1,32 @@
 <div class="container" style="margin-top: 50px">
-  <h1> Это ваш профиль</h1>
-  <div class="row">
-    <div class="col-2">
-      <p> Права суперпользователя: </p>
+
+  <div *ngIf="isLoading; else notLoading"> loading...</div>
+
+
+  <ng-template #notLoading>
+
+
+    <h1> Это ваш профиль</h1>
+    <div class="row" *ngIf="loadEnd">
+      <div class="col-2">
+        <p> Права суперпользователя: </p>
+      </div>
+      <div class="col" style="text-align: left">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [(ngModel)]="superuserAccess"
+          (change)="editSuperuserAccess()">
+      </div>
     </div>
-    <div class="col" style="text-align: left">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        [(ngModel)]="superuserAccess"
-        (change)="editSuperuserAccess()">
+
+    <div class="row">
+      <button class="btn btn-warning" type="button" [routerLink]="['/profile/superuser']">
+        Перейти на страницу суперпользователя
+      </button>
     </div>
-  </div>
 
-  <div class="row">
-    <button class="btn btn-warning" type="button" [routerLink]="['/profile/superuser']">
-      Перейти на страницу суперпользователя
-    </button>
-  </div>
-
-
+  </ng-template>
 
 
 </div>

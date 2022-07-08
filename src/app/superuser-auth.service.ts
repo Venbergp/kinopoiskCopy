@@ -9,7 +9,7 @@ export class SuperuserAuthService {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(this.isSuperuserActivated)
-      }, 100)
+      }, 1000)
     })
   }
 

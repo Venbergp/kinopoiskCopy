@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable, of} from "rxjs";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-superuser',
@@ -9,7 +10,7 @@ import {Observable, of} from "rxjs";
 export class SuperuserComponent implements OnInit {
 
   constructor() {
-    console.log('Я гружусь')
+
   }
 
 
