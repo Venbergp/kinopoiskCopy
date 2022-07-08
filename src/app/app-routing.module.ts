@@ -8,7 +8,12 @@ import {FilmInfoComponent} from "./film-info/film-info.component";
 const appRoutes: Routes = [
   {path: '', component: FilmListComponent},
   {path: 'films', component: FilmListComponent},
-  {path: 'films/:id', component: FilmInfoComponent}
+  {path: 'films/:id', component: FilmInfoComponent},
+  {
+    path: 'superuser',
+    loadChildren: () => import('./superuser/superuser.module')
+      .then(m => m.SuperuserModule)
+  }
 ]
 
 
