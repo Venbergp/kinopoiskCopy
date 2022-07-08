@@ -17,6 +17,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatIconModule} from "@angular/material/icon";
+import { TrimDirective } from './trim.directive';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     FilmListComponent,
     FilmItemComponent,
     NavbarComponent,
-    FilmInfoComponent
+    FilmInfoComponent,
+    TrimDirective
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   providers: [
     GetDataService,

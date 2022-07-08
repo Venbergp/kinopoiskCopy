@@ -71,12 +71,14 @@ export class HttpInterceptorService implements HttpInterceptor{
   }
 
   setDB = () => {
-    localStorage.setItem('localFilmList', JSON.stringify(this.films))
+    if (localStorage.getItem('localFilmList') == null)
+      localStorage.setItem('localFilmList', JSON.stringify(this.films))
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // return of(new HttpResponse({body: localStorage.getItem('localFilmList')}))
+    console.log(req)
 
     if (req.method === "GET"){
 
@@ -99,6 +101,8 @@ export class HttpInterceptorService implements HttpInterceptor{
         let filmList : any = JSON.parse(s)
         for (let i = 0; i < filmList.length; i++) {
           if (filmList[i].id == newFilmInfo.id) {
+            console.log(filmList[i])
+            console.log(newFilmInfo)
             filmList[i] = newFilmInfo
           }
         }

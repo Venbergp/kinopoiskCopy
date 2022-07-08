@@ -12,10 +12,11 @@
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form [formGroup]="filmForm" action="" (ngSubmit)="onSubmit()">
       <div class="modal-body">
 
         <!-- Форма изменения -->
-        <form [formGroup]="filmForm" action="">
+
 
           <div class="row">
             <mat-form-field >
@@ -51,21 +52,46 @@
           </div>
           <div class="row">
               <mat-label>Разблокировать добавление наград</mat-label>
-              <mat-checkbox formControlName="awardsCheckbox"> </mat-checkbox>
+              <mat-checkbox formControlName="awardsCheckbox" (change)="checkboxStatus()"> </mat-checkbox>
+          </div>
+          <div style="margin-top: 20px">
+            <div class="row" *ngFor="let awardTemplate of awardsList; let idx = index">
+              <div class="row">
+                <div class="col-11">
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Награда номер: {{idx + 1}}</mat-label>
+                    <input matInput [formControl]="awardTemplate">
+                  </mat-form-field>
+                </div>
 
+                <div class="col-1">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="!this.filmForm.controls['awardsCheckbox'].getRawValue()"
+                    (click)="removeAdwards(idx)">X</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <button
+              type="button"
+              class="btn btn-warning"
+              [disabled]="!this.filmForm.controls['awardsCheckbox'].getRawValue()"
+              (click)="addNewAdward()"> Добавить новую награду</button>
           </div>
 
 
-        </form>
-
-
         <!-- Конец формы -->
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-        <button type="button" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -95,6 +121,15 @@
 
           <h5 class="card-subtitle text-muted" style="margin-top: 10px"> Описание</h5>
           <p class="card-text"> {{filmInfo.description}}</p>
+
+          <div *ngIf="awardsList.length > 0">
+            <h5 class="card-subtitle text-muted" style="margin-top: 10px"> Награды</h5>
+            <uL>
+              <li *ngFor="let award of filmInfo.awards">
+                <p> {{award}} </p>
+              </li>
+            </uL>
+          </div>
         </div>
       </div>
       <button class="btn btn-secondary"
