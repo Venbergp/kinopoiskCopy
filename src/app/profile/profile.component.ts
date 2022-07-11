@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SuperuserAuthService} from "../superuser-auth.service";
-import {NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {NavigationCancel, NavigationEnd, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +30,10 @@ export class ProfileComponent implements OnInit {
         }
 
         if (event instanceof NavigationEnd) {
+          this.isLoading = false
+        }
+
+        if (event instanceof NavigationCancel) {
           this.isLoading = false
         }
       })
