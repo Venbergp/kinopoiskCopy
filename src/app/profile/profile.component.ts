@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {SuperuserAuthService} from "../superuser-auth.service";
 import {NavigationCancel, NavigationEnd, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
 
@@ -14,11 +15,12 @@ export class ProfileComponent implements OnInit {
   loadEnd : boolean = false
 
 
-  constructor(private sUserAuth: SuperuserAuthService, private router: Router) {
+  constructor(private sUserAuth: SuperuserAuthService, private router: Router, private cdr: ChangeDetectorRef) {
     this.loadEnd = false
     sUserAuth.hasAccess().then((access : any) => {
       this.superuserAccess = access
       this.loadEnd = true
+      this.cdr.detectChanges()
     })
 
     this.router.events.subscribe((event) => {
@@ -36,6 +38,7 @@ export class ProfileComponent implements OnInit {
         if (event instanceof NavigationCancel) {
           this.isLoading = false
         }
+        this.cdr.detectChanges()
       })
 
 

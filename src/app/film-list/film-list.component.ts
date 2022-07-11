@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {fromEvent, observable, Observable} from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
 import {GetDataService} from "../get-data.service";
@@ -22,7 +22,7 @@ export class FilmListComponent implements OnInit, OnChanges {
     // this.filteredFilms = this._filter(this.filmsNameFilter)
   }
 
-  constructor(private dataService: GetDataService) {
+  constructor(private dataService: GetDataService, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -33,6 +33,7 @@ export class FilmListComponent implements OnInit, OnChanges {
     this.dataService.getFilmList().then((value) => {
       this.films = value
       this.filteredFilms = this.films
+      this.cdr.detectChanges()
     })
 
 
@@ -57,7 +58,10 @@ export class FilmListComponent implements OnInit, OnChanges {
     // @ts-ignore
     const clicks = fromEvent(search, 'keyup')
     const result = clicks.pipe(debounceTime(500))
-    result.subscribe(() => {this.filteredFilms = this._filter(this.filmsNameFilter)})
+    result.subscribe(() => {
+      this.filteredFilms = this._filter(this.filmsNameFilter)
+      this.cdr.detectChanges()
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {

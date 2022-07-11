@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable, of} from "rxjs";
-import {NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-superuser',
   templateUrl: './superuser.component.html',
-  styleUrls: ['./superuser.component.css']
+  styleUrls: ['./superuser.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SuperuserComponent implements OnInit {
 
