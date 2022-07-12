@@ -9,12 +9,15 @@ export class SuperuserAuthGuardService implements CanActivate{
   constructor(private superuser : SuperuserAuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.superuser.hasAccess().then((access : any) => {
-      console.log(access)
+
+    this.superuser.hasAccess().subscribe((access : any) => {
       if (!access) {
-        this.router.navigate(['/profile'])
+        this.router.navigateByUrl('profile')
       }
       return access
     })
+
+    return this.superuser.hasAccess()
+
   }
 }

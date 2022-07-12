@@ -7,7 +7,7 @@ import {
   HttpRequest,
   HttpResponse
 } from "@angular/common/http";
-import {EMPTY, Observable, Observer, of, tap} from "rxjs";
+import {delay, EMPTY, Observable, Observer, of, tap} from "rxjs";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor{
@@ -78,19 +78,55 @@ export class HttpInterceptorService implements HttpInterceptor{
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // return of(new HttpResponse({body: localStorage.getItem('localFilmList')}))
-    console.log(req)
 
     if (req.method === "GET"){
+      let requestSplited : string[] = req.url.split('/').slice(3)
 
-      let request : Observable<HttpEvent<any>> = new Observable((obs) => {
-        setTimeout(() => {
-          let resp = new HttpResponse({body: localStorage.getItem('localFilmList')})
 
-          obs.next(resp)
-        }, 200)
-      })
+      // Запрос списка фильмов
+      if (requestSplited[0] == "films" && requestSplited.length == 1) {
 
-      return request
+        let resp : any = new Observable((obs) => {
+
+          let films : string | null = localStorage.getItem('localFilmList')
+          if (typeof films == 'string'){
+            let resp = new HttpResponse({body: JSON.parse(films)})
+            obs.next(resp)
+          }
+        }).pipe(delay(200))
+
+
+
+
+        return resp
+      }
+
+
+      // Запрос фильма по id
+      if (requestSplited[0] == 'films' && requestSplited.length == 2) {
+
+        let id = +requestSplited[1]
+        if (!isNaN(id)) {
+
+          let films : any = localStorage.getItem('localFilmList')
+          if (typeof films == 'string'){
+
+            films = JSON.parse(films)
+
+            for (let film of films) {
+              if (film.id == id) {
+                let resp : any = new Observable((obs) => {
+
+                  let resp = new HttpResponse({body: film})
+                  //console.log(film)
+                  obs.next(resp)
+                }).pipe(delay(200))
+                return  resp
+              }
+            }
+          }
+        }
+      }
     }
 
     if (req.method === "POST") {
@@ -101,14 +137,11 @@ export class HttpInterceptorService implements HttpInterceptor{
         let filmList : any = JSON.parse(s)
         for (let i = 0; i < filmList.length; i++) {
           if (filmList[i].id == newFilmInfo.id) {
-            console.log(filmList[i])
-            console.log(newFilmInfo)
             filmList[i] = newFilmInfo
           }
         }
         localStorage.setItem("localFilmList", JSON.stringify(filmList))
       }
-
     }
 
     return  EMPTY

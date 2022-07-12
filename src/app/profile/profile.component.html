@@ -21,7 +21,7 @@
     </div>
 
     <div class="row">
-      <button class="btn btn-warning" type="button" [routerLink]="['/profile/superuser']">
+      <button class="btn btn-warning" type="button" [routerLink]="['/profile/superuser']" [hidden]="!superuserAccess">
         Перейти на страницу суперпользователя
       </button>
     </div>

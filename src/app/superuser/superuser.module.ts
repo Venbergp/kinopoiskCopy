@@ -14,11 +14,15 @@ import {RouterModule} from "@angular/router";
     RouterModule.forChild([
       {
         path: 'superuser',
-        component: SuperuserComponent
+        component: SuperuserComponent,
       }
     ])
   ],
   bootstrap: [
   ]
 })
-export class SuperuserModule { }
+export class SuperuserModule {
+  constructor() {
+    console.log("Модуль суперюзера подключен")
+  }
+}

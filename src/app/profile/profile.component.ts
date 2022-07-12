@@ -17,14 +17,14 @@ export class ProfileComponent implements OnInit {
 
   constructor(private sUserAuth: SuperuserAuthService, private router: Router, private cdr: ChangeDetectorRef) {
     this.loadEnd = false
-    sUserAuth.hasAccess().then((access : any) => {
+    sUserAuth.hasAccess().subscribe((access : any) => {
       this.superuserAccess = access
       this.loadEnd = true
       this.cdr.detectChanges()
     })
 
     this.router.events.subscribe((event) => {
-      console.log(event)
+      //console.log(event)
 
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
@@ -49,7 +49,6 @@ export class ProfileComponent implements OnInit {
   }
 
   editSuperuserAccess() {
-    console.log(this.superuserAccess)
     if (this.superuserAccess) {
       this.sUserAuth.activate()
     } else {

@@ -14,8 +14,12 @@ const appRoutes: Routes = [
   {path: 'profile', component: ProfileComponent},
   {
     path: 'profile',
-    loadChildren: () => import('./superuser/superuser.module')
-      .then(m => m.SuperuserModule),
+    loadChildren: () => {
+
+      return import('./superuser/superuser.module')
+        .then(m => m.SuperuserModule)
+
+    },
     canActivate: [SuperuserAuthGuardService]
   }
 ]

@@ -9,7 +9,6 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 export class SuperuserComponent implements OnInit {
 
   constructor() {
-
   }
 
 

@@ -1,13 +1,14 @@
-import {ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {fromEvent, observable, Observable} from "rxjs";
-import { debounceTime, map } from 'rxjs/operators';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {fromEvent} from "rxjs";
+import {debounceTime} from 'rxjs/operators';
 import {GetDataService} from "../get-data.service";
 
 
 @Component({
   selector: 'app-film-list',
   templateUrl: './film-list.component.html',
-  styleUrls: ['./film-list.component.css']
+  styleUrls: ['./film-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilmListComponent implements OnInit, OnChanges {
 
@@ -28,9 +29,7 @@ export class FilmListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    //this.films = this.dataService.getFilmList()
-
-    this.dataService.getFilmList().then((value) => {
+    this.dataService.getFilmList().subscribe((value : any) => {
       this.films = value
       this.filteredFilms = this.films
       this.cdr.detectChanges()

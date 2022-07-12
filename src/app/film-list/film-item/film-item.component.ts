@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-film-item',
   templateUrl: './film-item.component.html',
-  styleUrls: ['./film-item.component.css']
+  styleUrls: ['./film-item.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilmItemComponent implements OnInit {
 

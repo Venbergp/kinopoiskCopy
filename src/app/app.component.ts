@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {GetDataService} from "./get-data.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
 export class AppComponent implements OnInit{
   title = 'kinopoiskCopy';
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {
+  constructor(private getData: GetDataService, private cdr: ChangeDetectorRef) {
   }
 
   search = () => {
@@ -24,8 +25,9 @@ export class AppComponent implements OnInit{
       bigImg: "https://avatars.mds.yandex.net/get-kinopoisk-image/1599028/4057c4b8-8208-4a04-b169-26b0661453e3/300x450",
       description: "В тюрьме для смертников появляется заключенный с божественным даром. Мистическая драма по роману Стивена Кинга"
     }
-    this.http.post('http://localhost:4200/editfilm', body).subscribe(x => {
 
+    this.getData.testRequest().subscribe((value : any) => {
+      console.log(value)
     })
   }
 
