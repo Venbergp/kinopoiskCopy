@@ -31,7 +31,6 @@ export class SuperuserAuthGuardService implements CanLoad, CanActivate{
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     let access : boolean = this.superuser.hasAccess()
-
     if (!access) {
       return this.router.parseUrl('/profile')
     }
