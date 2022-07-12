@@ -95,9 +95,6 @@ export class HttpInterceptorService implements HttpInterceptor{
           }
         }).pipe(delay(200))
 
-
-
-
         return resp
       }
 

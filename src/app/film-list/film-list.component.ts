@@ -35,26 +35,9 @@ export class FilmListComponent implements OnInit, OnChanges {
       this.cdr.detectChanges()
     })
 
-
     this.filteredFilms = this.films
 
-    // const search$ = new Observable(observer => {
-    //   let search = document.getElementById('search')
-    //   // @ts-ignore
-    //   search.addEventListener('keyup', () => {
-    //     observer.next()
-    //   })
-    // })
-    //
-    // search$.pipe(debounceTime(500)).subscribe(() => {this.filteredFilms = this._filter(this.filmsNameFilter)})
-
-
-    // const clicks = fromEvent(document, 'keyup');
-    // const result = clicks.pipe(debounceTime(500));
-    // result.subscribe(() => {this.filteredFilms = this._filter(this.filmsNameFilter)});
-
-    const search = document.getElementById('search')
-    // @ts-ignore
+    const search : any = document.getElementById('search')
     const clicks = fromEvent(search, 'keyup')
     const result = clicks.pipe(debounceTime(500))
     result.subscribe(() => {

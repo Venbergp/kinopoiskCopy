@@ -4,20 +4,24 @@ import {delay, Observable} from "rxjs";
 
 export class SuperuserAuthService {
 
-  isSuperuserActivated : boolean =  false
+  _isSuperuserActivated : boolean =  false
 
-  hasAccess() : Observable<any>{
-    return new Observable(obs => {
-        obs.next(this.isSuperuserActivated)
-    }).pipe(delay(300))
+  // hasAccess() : Observable<any>{
+  //   return new Observable(obs => {
+  //       obs.next(this.isSuperuserActivated)
+  //   }).pipe(delay(300))
+  // }
+
+  hasAccess() : boolean {
+    return this._isSuperuserActivated
   }
 
   activate(){
-    this.isSuperuserActivated = true
+    this._isSuperuserActivated = true
   }
 
   deactivate() {
-    this.isSuperuserActivated = false
+    this._isSuperuserActivated = false
   }
 
   constructor() { }

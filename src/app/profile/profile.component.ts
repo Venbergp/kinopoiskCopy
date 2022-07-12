@@ -12,40 +12,37 @@ export class ProfileComponent implements OnInit {
 
   superuserAccess : boolean = false
   isLoading : boolean = false
-  loadEnd : boolean = false
 
 
   constructor(private sUserAuth: SuperuserAuthService, private router: Router, private cdr: ChangeDetectorRef) {
-    this.loadEnd = false
-    sUserAuth.hasAccess().subscribe((access : any) => {
-      this.superuserAccess = access
-      this.loadEnd = true
-      this.cdr.detectChanges()
-    })
 
-    this.router.events.subscribe((event) => {
+    this.superuserAccess = sUserAuth.hasAccess()
+
+
       //console.log(event)
 
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.isLoading = true
-        }
-
-        if (event instanceof NavigationEnd) {
-          this.isLoading = false
-        }
-
-        if (event instanceof NavigationCancel) {
-          this.isLoading = false
-        }
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isLoading = true
         this.cdr.detectChanges()
-      })
+      }
 
+      if (event instanceof NavigationEnd) {
+        this.isLoading = false
+        this.cdr.detectChanges()
+      }
 
+      if (event instanceof NavigationCancel) {
+        this.isLoading = false
+        this.cdr.detectChanges()
+      }
     })
+
+
   }
 
   ngOnInit(): void {
+    this.cdr.detectChanges()
   }
 
   editSuperuserAccess() {

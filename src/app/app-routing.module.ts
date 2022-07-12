@@ -8,19 +8,19 @@ import {SuperuserAuthGuardService} from "./superuser-auth-guard.service";
 
 
 const appRoutes: Routes = [
-  {path: '', component: FilmListComponent},
+  {path: '', redirectTo: 'films', pathMatch: "full"},
   {path: 'films', component: FilmListComponent},
   {path: 'films/:id', component: FilmInfoComponent},
   {path: 'profile', component: ProfileComponent},
   {
-    path: 'profile',
+    path: 'profile/superuser',
     loadChildren: () => {
 
       return import('./superuser/superuser.module')
         .then(m => m.SuperuserModule)
 
     },
-    canActivate: [SuperuserAuthGuardService]
+    canLoad: [SuperuserAuthGuardService]
   }
 ]
 
