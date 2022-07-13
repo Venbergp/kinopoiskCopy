@@ -75,6 +75,7 @@ export class FilmInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.route.params.subscribe((params: Params) => {
       this.dataService.getFilmById(params['id']).subscribe((value) => {
         this.filmInfo = value;

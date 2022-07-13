@@ -25,14 +25,18 @@ describe('ProfileComponent', () => {
   });
 
   it('should block superuserLink button', function () {
-    component.superuserAccess = false
-    fixture.detectChanges()
-    expect(fixture.debugElement.query(By.css('button')).nativeElement.hidden).toBeTruthy();
+    component.superuserAccess = false;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('button')).nativeElement.hidden
+    ).toBeTruthy();
   });
 
   it('should unblock superuserLink button', function () {
-    component.superuserAccess = true
-    fixture.detectChanges()
-    expect(fixture.debugElement.query(By.css('button')).nativeElement.hidden).toBeFalsy();
+    component.superuserAccess = true;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('button')).nativeElement.hidden
+    ).toBeFalsy();
   });
 });

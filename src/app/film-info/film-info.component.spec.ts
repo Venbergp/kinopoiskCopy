@@ -25,26 +25,29 @@ describe('FilmInfoComponent', () => {
 
   it('should open modal', () => {
     expect(component).toBeTruthy();
-    let buttons = fixture.debugElement.queryAll(By.css('button'))
-    let editButton = undefined
+    let buttons = fixture.debugElement.queryAll(By.css('button'));
+    let editButton = undefined;
     for (let button of buttons) {
       //console.log(button)
-      if (button.nativeElement.innerText == "Редактировать информацию о фильме") {
-        editButton = button
+      if (
+        button.nativeElement.innerText == 'Редактировать информацию о фильме'
+      ) {
+        editButton = button;
       }
     }
 
-    if (typeof editButton == "undefined") {
-      expect(false).toBeTruthy()
+    if (typeof editButton == 'undefined') {
+      expect(false).toBeTruthy();
     } else {
-      console.log(editButton.nativeElement)
+      console.log(editButton.nativeElement);
 
-      editButton.triggerEventHandler("click", null)
+      editButton.triggerEventHandler('click', null);
 
-      fixture.detectChanges()
+      fixture.detectChanges();
 
-      console.log(fixture.debugElement.query(By.css('div.modal')).nativeElement)
+      console.log(
+        fixture.debugElement.query(By.css('div.modal')).nativeElement
+      );
     }
-
   });
 });

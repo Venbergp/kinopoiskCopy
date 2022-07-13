@@ -10,14 +10,13 @@
       <input
         style="align-self: center"
         placeholder="Поиск"
-        [(ngModel)]="filmsNameFilter"
-        (ngModelChange)="OnInputChange()"
+        [formControl]="inputFilmName"
         id="search"
       />
     </div>
   </div>
   <app-film-item
-    *ngFor="let film of filteredFilms"
+    *ngFor="let film of filteredFilms$ | async"
     [film]="film"
   ></app-film-item>
 </div>

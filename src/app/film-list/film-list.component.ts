@@ -1,14 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import {
+  combineLatestWith,
+  map,
+  Observable,
+  of,
+  startWith,
+} from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GetDataService } from '../get-data.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-film-list',
@@ -16,45 +20,31 @@ import { GetDataService } from '../get-data.service';
   styleUrls: ['./film-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilmListComponent implements OnInit, OnChanges {
-  filmsNameFilter = '';
-  films: any[] = [];
-  filteredFilms: any[] = [];
 
-  OnInputChange = () => {
-    // console.log(this.filmsNameFilter)
-    // this.filteredFilms = this._filter(this.filmsNameFilter)
-  };
+export class FilmListComponent implements OnInit {
+  inputFilmName: FormControl = new FormControl('');
+  inputFilmName$: Observable<any> = this.inputFilmName.valueChanges.pipe(
+    startWith(''),
+    debounceTime(500)
+  );
+  films$ = this.dataService.getFilmList();
+  filteredFilms$: Observable<any> = of([]);
 
-  constructor(
-    private dataService: GetDataService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private dataService: GetDataService) {}
 
   ngOnInit(): void {
-    this.dataService.getFilmList().subscribe((value: any) => {
-      this.films = value;
-      this.filteredFilms = this.films;
-      this.cdr.detectChanges();
-    });
-
-    this.filteredFilms = this.films;
-
-    const search: any = document.getElementById('search');
-    const clicks = fromEvent(search, 'keyup');
-    const result = clicks.pipe(debounceTime(500));
-    result.subscribe(() => {
-      this.filteredFilms = this._filter(this.filmsNameFilter);
-      this.cdr.detectChanges();
-    });
+    this.filteredFilms$ = this.inputFilmName$.pipe(
+      combineLatestWith(this.films$),
+      map((e1: any[]) => {
+        return this._filter(e1[0], e1[1]);
+      })
+    );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
-  private _filter(value: string): any[] {
+  private _filter(value: string, array: any[]): any[] {
     const filterValue = value.toLowerCase();
-    return this.films.filter((option) =>
-      option.name.toLowerCase().includes(filterValue.toLowerCase())
+    return array.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
     );
   }
 }
