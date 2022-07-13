@@ -13,8 +13,8 @@ import { FormControl } from '@angular/forms';
 export class FilmListComponent implements OnInit {
   inputFilmName: FormControl = new FormControl('');
   inputFilmName$: Observable<any> = this.inputFilmName.valueChanges.pipe(
+    debounceTime(500),
     startWith(''),
-    debounceTime(500)
   );
   films$ = this.dataService.getFilmList();
   filteredFilms$: Observable<any> = of([]);
