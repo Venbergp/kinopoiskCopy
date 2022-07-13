@@ -24,10 +24,15 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open modal', function () {
-    console.log(
-      fixture.debugElement.query(By.css('input.form-check-input')).nativeElement
-    );
-    expect(true).toBeTruthy();
+  it('should block superuserLink button', function () {
+    component.superuserAccess = false
+    fixture.detectChanges()
+    expect(fixture.debugElement.query(By.css('button')).nativeElement.hidden).toBeTruthy();
+  });
+
+  it('should unblock superuserLink button', function () {
+    component.superuserAccess = true
+    fixture.detectChanges()
+    expect(fixture.debugElement.query(By.css('button')).nativeElement.hidden).toBeFalsy();
   });
 });
