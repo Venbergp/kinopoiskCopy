@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { GetDataService } from '../get-data.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-film-info',
@@ -15,9 +17,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./film-info.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilmInfoComponent implements OnInit {
+export class FilmInfoComponent implements OnInit, OnDestroy {
   filmInfo: any = {};
-
   filmForm: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
@@ -27,8 +28,8 @@ export class FilmInfoComponent implements OnInit {
     awardsCheckbox: new FormControl(),
     awards: new FormArray([new FormControl('')]),
   });
-
   awardsList: any = [];
+  destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     private dataService: GetDataService,
@@ -75,41 +76,46 @@ export class FilmInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params
+      .pipe(takeUntil(this.destroy))
+      .subscribe((params: Params) => {
+        this.dataService
+          .getFilmById(params['id'])
+          .pipe(takeUntil(this.destroy))
+          .subscribe((value) => {
+            this.filmInfo = value;
 
-    this.route.params.subscribe((params: Params) => {
-      this.dataService.getFilmById(params['id']).subscribe((value) => {
-        this.filmInfo = value;
+            this.filmForm = new FormGroup({
+              id: new FormControl(this.filmInfo.id),
+              name: new FormControl(this.filmInfo.name),
+              rating: new FormControl(this.filmInfo.rating),
+              year: new FormControl(this.filmInfo.year),
+              description: new FormControl(this.filmInfo.description),
+              awardsCheckbox: new FormControl(false),
+              awards: new FormArray([]),
+            });
 
-        this.filmForm = new FormGroup({
-          id: new FormControl(this.filmInfo.id),
-          name: new FormControl(this.filmInfo.name),
-          rating: new FormControl(this.filmInfo.rating),
-          year: new FormControl(this.filmInfo.year),
-          description: new FormControl(this.filmInfo.description),
-          awardsCheckbox: new FormControl(false),
-          awards: new FormArray([]),
-        });
+            if (this.filmInfo.awards) {
+              for (let i: number = 1; i <= this.filmInfo.awards.length; ++i) {
+                let awardName = this.filmInfo.awards[i - 1];
+                (<FormArray>this.filmForm.controls['awards']).push(
+                  new FormControl({ value: awardName, disabled: true })
+                );
+              }
+            }
 
-        //console.log(this.filmInfo)
+            this.awardsList = (<FormArray>(
+              this.filmForm.controls['awards']
+            )).controls;
+            this.checkboxStatus();
 
-        if (this.filmInfo.awards) {
-          for (let i: number = 1; i <= this.filmInfo.awards.length; ++i) {
-            let awardName = this.filmInfo.awards[i - 1];
-            (<FormArray>this.filmForm.controls['awards']).push(
-              new FormControl({ value: awardName, disabled: true })
-            );
-          }
-        }
-
-        //console.log(1)
-
-        this.awardsList = (<FormArray>(
-          this.filmForm.controls['awards']
-        )).controls;
-        this.checkboxStatus();
-
-        this.cdr.detectChanges();
+            this.cdr.detectChanges();
+          });
       });
-    });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 }

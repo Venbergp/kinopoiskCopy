@@ -1,15 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  combineLatestWith,
-  map,
-  Observable,
-  of,
-  startWith,
-} from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatestWith, map, Observable, of, startWith } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GetDataService } from '../get-data.service';
 import { FormControl } from '@angular/forms';
@@ -20,7 +10,6 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./film-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class FilmListComponent implements OnInit {
   inputFilmName: FormControl = new FormControl('');
   inputFilmName$: Observable<any> = this.inputFilmName.valueChanges.pipe(
