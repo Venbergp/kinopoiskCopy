@@ -5,23 +5,27 @@ import { AppComponent } from './app.component';
 import { FilmListComponent } from './film-list/film-list.component';
 import { FilmItemComponent } from './film-list/film-item/film-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilmInfoComponent } from './film-info/film-info.component';
-import {GetDataService} from "./get-data.service";
-import {RouterModule} from "@angular/router";
-import {AppRoutingModule} from "./app-routing.module";
-import {HttpInterceptorService} from "./http-interceptor.service";
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import { GetDataService } from './get-data.service';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpInterceptorService } from './http-interceptor.service';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatIconModule} from "@angular/material/icon";
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { TrimDirective } from './trim.directive';
 import { ProfileComponent } from './profile/profile.component';
-import {SuperuserAuthService} from "./superuser-auth.service";
-import {SuperuserAuthGuardService} from "./superuser-auth-guard.service";
+import { SuperuserAuthService } from './superuser-auth.service';
+import { SuperuserAuthGuardService } from './superuser-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,7 @@ import {SuperuserAuthGuardService} from "./superuser-auth-guard.service";
     NavbarComponent,
     FilmInfoComponent,
     TrimDirective,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,16 +49,18 @@ import {SuperuserAuthGuardService} from "./superuser-auth-guard.service";
     MatSelectModule,
     MatFormFieldModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [
     GetDataService,
-    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
     SuperuserAuthService,
-    SuperuserAuthGuardService
+    SuperuserAuthGuardService,
   ],
-  bootstrap: [
-    AppComponent
-  ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

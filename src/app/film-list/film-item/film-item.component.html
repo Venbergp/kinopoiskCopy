@@ -1,38 +1,55 @@
-
-
 <!-- Modal IMG -->
-<div class="modal fade" [attr.id]="'filmModal' + film.id" tabindex="-1" [attr.aria-labelledby]="'filmModalLabel' + film.id" aria-hidden="true">
+<div
+  class="modal fade"
+  [attr.id]="'filmModal' + film.id"
+  tabindex="-1"
+  [attr.aria-labelledby]="'filmModalLabel' + film.id"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <img [src]="film.bigImg" style="width: 100%; border-radius: 10px">
+        <img [src]="film.bigImg" style="width: 100%; border-radius: 10px" />
       </div>
     </div>
   </div>
 </div>
 
-
 <div class="list-group" style="margin-bottom: 20px">
   <div class="list-group-item list-group-item-dark">
     <div class="">
       <div class="row">
-        <h2 style="cursor: pointer" [routerLink]="['/films', film.id.toString()]"> {{film.name}}</h2>
+        <h2
+          style="cursor: pointer"
+          [routerLink]="['/films', film.id.toString()]"
+        >
+          {{ film.name }}
+        </h2>
       </div>
       <div class="row">
-
         <div class="col-md-2" style="text-align: center">
-          <img [src]="film.img" alt="avatar" data-bs-toggle="modal" [attr.data-bs-target]="'#filmModal' + film.id">
+          <img
+            [src]="film.img"
+            alt="avatar"
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#filmModal' + film.id"
+          />
         </div>
         <div class="col-md-3">
-          <h3> Рейтинг: {{film.rating}}</h3>
-          <h3> Год выпуска: {{film.year}}</h3>
+          <h3>Рейтинг: {{ film.rating }}</h3>
+          <h3>Год выпуска: {{ film.year }}</h3>
         </div>
         <div class="col-md-5">
-          <h4> Описание фильма </h4>
-          <p> {{film.description}}</p>
+          <h4>Описание фильма</h4>
+          <p>{{ film.description }}</p>
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import {delay, Observable} from "rxjs";
-
+import { delay, Observable } from 'rxjs';
 
 export class SuperuserAuthService {
-
-  _isSuperuserActivated : boolean =  false
+  _isSuperuserActivated: boolean = false;
 
   // hasAccess() : Observable<any>{
   //   return new Observable(obs => {
@@ -12,17 +10,17 @@ export class SuperuserAuthService {
   //   }).pipe(delay(300))
   // }
 
-  hasAccess() : boolean {
-    return this._isSuperuserActivated
+  hasAccess(): boolean {
+    return this._isSuperuserActivated;
   }
 
-  activate(){
-    this._isSuperuserActivated = true
+  activate() {
+    this._isSuperuserActivated = true;
   }
 
   deactivate() {
-    this._isSuperuserActivated = false
+    this._isSuperuserActivated = false;
   }
 
-  constructor() { }
+  constructor() {}
 }

@@ -1,28 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SuperuserComponent } from './superuser.component';
-import {RouterModule} from "@angular/router";
-
-
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    SuperuserComponent
-  ],
+  declarations: [SuperuserComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
         component: SuperuserComponent,
-      }
-    ])
+      },
+    ]),
   ],
-  bootstrap: [
-  ]
+  bootstrap: [],
 })
 export class SuperuserModule {
   constructor() {
-    console.log("Модуль суперюзера подключен")
+    console.log('Модуль суперюзера подключен');
   }
 }

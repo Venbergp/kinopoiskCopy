@@ -41,3 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 /src/app/get-data.service.ts
+
+# Ignore artifacts:
+build
+coverage

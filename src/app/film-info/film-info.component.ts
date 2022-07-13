@@ -1,77 +1,83 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {GetDataService} from "../get-data.service";
-import {ActivatedRoute, Params} from "@angular/router";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { GetDataService } from '../get-data.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-film-info',
   templateUrl: './film-info.component.html',
   styleUrls: ['./film-info.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilmInfoComponent implements OnInit {
+  filmInfo: any = {};
 
-  filmInfo : any = {}
-
-  filmForm : FormGroup = new FormGroup({
+  filmForm: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
     rating: new FormControl(''),
     year: new FormControl(''),
     description: new FormControl(''),
     awardsCheckbox: new FormControl(),
-    awards: new FormArray([
-      new FormControl('')
-    ])
-  })
+    awards: new FormArray([new FormControl('')]),
+  });
 
-  awardsList : any = []
+  awardsList: any = [];
 
-
-
-
-  constructor(private dataService : GetDataService, private route: ActivatedRoute, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
-
-  }
+  constructor(
+    private dataService: GetDataService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   checkboxStatus() {
-    if (this.filmForm.controls['awardsCheckbox'].getRawValue()){
-      this.filmForm.controls['awards'].enable()
+    if (this.filmForm.controls['awardsCheckbox'].getRawValue()) {
+      this.filmForm.controls['awards'].enable();
     } else {
-
-      this.filmForm.controls['awards'].disable()
+      this.filmForm.controls['awards'].disable();
     }
   }
 
   addNewAdward() {
     (<FormArray>this.filmForm.controls['awards']).push(
-      new FormControl({value: '', disabled: !this.filmForm.controls['awardsCheckbox'].getRawValue()})
+      new FormControl({
+        value: '',
+        disabled: !this.filmForm.controls['awardsCheckbox'].getRawValue(),
+      })
     );
   }
 
-  removeAdwards(idx : number) {
+  removeAdwards(idx: number) {
     console.log('удаляю награду номер' + idx);
-    (<FormArray>this.filmForm.controls['awards']).removeAt(idx)
+    (<FormArray>this.filmForm.controls['awards']).removeAt(idx);
   }
 
-  onSubmit(){
-    if (this.filmForm.value.awardsCheckbox == true && this.filmForm.value.awards != undefined) {
-      this.filmInfo.awards = this.filmForm.value.awards
+  onSubmit() {
+    if (
+      this.filmForm.value.awardsCheckbox == true &&
+      this.filmForm.value.awards != undefined
+    ) {
+      this.filmInfo.awards = this.filmForm.value.awards;
     }
-    this.filmInfo.description = this.filmForm.value.description
-    this.filmInfo.rating = this.filmForm.value.rating
-    this.filmInfo.year = this.filmForm.value.year
-    this.filmInfo.name = this.filmForm.value.name
+    this.filmInfo.description = this.filmForm.value.description;
+    this.filmInfo.rating = this.filmForm.value.rating;
+    this.filmInfo.year = this.filmForm.value.year;
+    this.filmInfo.name = this.filmForm.value.name;
 
-    this.dataService.loadFilm(this.filmInfo)
+    this.dataService.loadFilm(this.filmInfo);
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.dataService.getFilmById(params['id']).subscribe((value) => {
-
-        this.filmInfo = value
+        this.filmInfo = value;
 
         this.filmForm = new FormGroup({
           id: new FormControl(this.filmInfo.id),
@@ -80,29 +86,29 @@ export class FilmInfoComponent implements OnInit {
           year: new FormControl(this.filmInfo.year),
           description: new FormControl(this.filmInfo.description),
           awardsCheckbox: new FormControl(false),
-          awards: new FormArray([
-          ])
-        })
-
+          awards: new FormArray([]),
+        });
 
         //console.log(this.filmInfo)
 
         if (this.filmInfo.awards) {
-          for (let i : number = 1; i <= this.filmInfo.awards.length; ++i) {
+          for (let i: number = 1; i <= this.filmInfo.awards.length; ++i) {
             let awardName = this.filmInfo.awards[i - 1];
-            (<FormArray>this.filmForm.controls['awards']).push(new FormControl({value: awardName, disabled: true}));
+            (<FormArray>this.filmForm.controls['awards']).push(
+              new FormControl({ value: awardName, disabled: true })
+            );
           }
         }
 
-
         //console.log(1)
 
-        this.awardsList = (<FormArray>this.filmForm.controls['awards']).controls
-        this.checkboxStatus()
+        this.awardsList = (<FormArray>(
+          this.filmForm.controls['awards']
+        )).controls;
+        this.checkboxStatus();
 
-        this.cdr.detectChanges()
-      })
-    })
+        this.cdr.detectChanges();
+      });
+    });
   }
-
 }
