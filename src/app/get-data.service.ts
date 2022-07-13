@@ -15,7 +15,7 @@ export class GetDataService {
   }
 
   loadFilm(filmInfo: any): any {
-    this.http.post('http://localhost:4200', filmInfo).subscribe(() => {});
+    this.http.post('http://localhost:4200', filmInfo)
   }
 
   getFilmList(): any {
