@@ -36,7 +36,9 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    //console.log(dataService)
+  }
 
   checkboxStatus() {
     if (this.filmForm.controls['awardsCheckbox'].getRawValue()) {

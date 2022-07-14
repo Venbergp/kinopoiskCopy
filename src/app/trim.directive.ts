@@ -11,6 +11,8 @@ export class TrimDirective {
   onBlur(el: any, value: string) {
     if (value.trim() !== value) {
       el.value = value.trim();
+
     }
+
   }
 }
