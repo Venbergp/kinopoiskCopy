@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, waitForAsync} from '@angular/core/testing';
 
 import { FilmInfoComponent } from './film-info.component';
 import { AppModule } from '../app.module';
@@ -11,7 +11,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TextFieldModule} from "@angular/cdk/text-field";
 import {AppRoutingModule} from "../app-routing.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -20,9 +20,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {GetDataService} from "../get-data.service";
 import {BehaviorSubject, from, Observable, of} from "rxjs";
 
+
 describe('FilmInfoComponent', () => {
   let component: FilmInfoComponent;
   let fixture: ComponentFixture<FilmInfoComponent>;
+
 
   beforeEach(async () => {
 
@@ -31,13 +33,10 @@ describe('FilmInfoComponent', () => {
     } as ActivatedRoute;
 
 
-
-    console.log(fakeActivatedRoute)
-
     await TestBed.configureTestingModule({
       declarations: [
         FilmInfoComponent,
-        TrimDirective
+        TrimDirective,
       ],
       imports: [
         BrowserModule,
@@ -46,7 +45,7 @@ describe('FilmInfoComponent', () => {
         AppRoutingModule,
         HttpClientModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatInputModule,
         MatSelectModule,
         MatFormFieldModule,
@@ -58,12 +57,12 @@ describe('FilmInfoComponent', () => {
         GetDataService,
         {provide: ActivatedRoute, useValue: fakeActivatedRoute},
         FormBuilder,
-        ChangeDetectorRef
+        ChangeDetectorRef,
       ],
       schemas: [
+
         CUSTOM_ELEMENTS_SCHEMA,
         NO_ERRORS_SCHEMA,
-
       ]
     }).compileComponents();
 
@@ -74,12 +73,19 @@ describe('FilmInfoComponent', () => {
     fixture.detectChanges();
   });
 
+
+
+  async function runOnPushChangeDetection(fixture: ComponentFixture<any>): Promise<void> {
+    const changeDetectorRef = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
+    changeDetectorRef.detectChanges();
+    return fixture.whenStable();
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
-
+  it('should use trim directive', () => {
 
     // Заполнение формы
     component.filmInfo = {
@@ -114,52 +120,43 @@ describe('FilmInfoComponent', () => {
 
 
 
+    component.filmForm.controls['name'].setValue('    123         ')
     let input = fixture.debugElement.queryAll(By.css('input'))[0]
 
-    input.nativeElement.value = '       123        '
-    input.triggerEventHandler('blur')
-    //component.filmForm.controls['name'].setValue('    123         ')
-
-    fixture.detectChanges()
-
-    input.triggerEventHandler('blur', null)
-    fixture.detectChanges()
-
-    console.log(component.filmForm.controls['name'].value)
-    console.log(input.nativeElement.value)
+    runOnPushChangeDetection(fixture)
+    input.triggerEventHandler('blur', {target: input.nativeElement})
 
 
-    expect(true).toBeTruthy()
+    expect(input.nativeElement.value).toEqual('123')
   });
 
-  // it('should open modal', async () => {
-  //   expect(component).toBeTruthy();
-  //   let buttons = fixture.debugElement.queryAll(By.css('button'));
-  //   let editButton : any = undefined;
-  //   for (let button of buttons) {
-  //     //console.log(button)
-  //     if (
-  //       button.nativeElement.innerText == 'Редактировать информацию о фильме'
-  //     ) {
-  //       editButton = button;
-  //     }
-  //   }
-  //
-  //   if (typeof editButton == 'undefined') {
-  //     expect(false).toBeTruthy();
-  //   } else {
-  //     console.log(editButton.nativeElement);
-  //
-  //     editButton.triggerEventHandler('click', null);
-  //
-  //     setTimeout(()=>{
-  //       console.log(1)
-  //       fixture.detectChanges();
-  //       console.log(
-  //         fixture.debugElement.query(By.css('div.modal')).nativeElement
-  //       );
-  //     }, 2000)
-  //
-  //   }
-  // });
+  it('should open modal',  fakeAsync(() => {
+    expect(component).toBeTruthy();
+    let buttons = fixture.debugElement.queryAll(By.css('button'));
+    let editButton : any = undefined;
+    let modal : any = fixture.debugElement.query(By.css('div.modal'))
+    for (let button of buttons) {
+      //console.log(button)
+      if (
+        button.nativeElement.innerText == 'Редактировать информацию о фильме'
+      ) {
+        editButton = button;
+      }
+    }
+
+    if (typeof editButton == 'undefined') {
+      expect(false).toBeTruthy();
+    } else {
+      //console.log(editButton.nativeElement);
+      console.log(modal.nativeElement)
+      editButton.triggerEventHandler('click', null);
+      fixture.detectChanges()
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges()
+        console.log(fixture.debugElement.query(By.css('div.modal')).nativeElement);
+      })
+    }
+
+  }));
 });
