@@ -39,9 +39,32 @@ export class FilmForm extends FormGroup{
         );
       }
     }
-
   }
 
+  public addNewAdward() {
+    (this.controls['awards'] as FormArray).push(
+      new FormControl({
+        value: '',
+        disabled: !this.controls['awardsCheckbox'].getRawValue(),
+      })
+    );
+  }
 
+  public removeAdwards(idx: number) {
+    console.log('удаляю награду номер' + idx);
+    (this.controls['awards'] as FormArray).removeAt(idx);
+  }
+
+  public checkboxStatus() {
+    if (this.controls['awardsCheckbox'].getRawValue()) {
+      this.controls['awards'].enable();
+    } else {
+      this.controls['awards'].disable();
+    }
+  }
+
+  public getAwardList() {
+     return(this.controls['awards'] as FormArray).controls as FormControl[]
+  }
 
 }

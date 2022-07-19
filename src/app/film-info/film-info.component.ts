@@ -49,7 +49,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     awardsCheckbox: new FormControl(),
     awards: new FormArray([new FormControl('')]),
   });
-  awardsList: Array<FormControl> = [];
+  awardsList: FormControl[] = [];
   destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
