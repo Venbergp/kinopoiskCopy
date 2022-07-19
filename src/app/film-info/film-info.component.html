@@ -63,14 +63,14 @@
             >
             </mat-checkbox>
           </div>
-          <div style="margin-top: 20px">
+          <div class="awardsRow">
             <div
               class="row"
               *ngFor="let awardTemplate of awardsList; let idx = index"
             >
               <div class="row">
                 <div class="col-11">
-                  <mat-form-field style="width: 100%">
+                  <mat-form-field class="awardWidth">
                     <mat-label>Награда номер: {{ idx + 1 }}</mat-label>
                     <input
                       trimDirective
@@ -128,10 +128,10 @@
   </div>
 </div>
 
-<div class="container" style="margin-top: 30px">
+<div class="container cardMargin">
   <div class="row">
     <div class="col-md-4">
-      <img [src]="filmInfo.bigImg" style="border-radius: 10px" />
+      <img [src]="filmInfo.bigImg" class="filmInfoImg" />
     </div>
     <div class="col-md-6">
       <div class="card">
@@ -139,26 +139,26 @@
           <h3 class="card-title">Информация о фильме {{ filmInfo.name }}</h3>
           <div class="row">
             <div class="col">
-              <h5 class="card-subtitle text-muted" style="margin-top: 10px">
+              <h5 class="card-subtitle text-muted cardTitleMargin">
                 Год производства
               </h5>
               <p class="card-text">{{ filmInfo.year }}</p>
             </div>
             <div class="col">
-              <h5 class="card-subtitle text-muted" style="margin-top: 10px">
+              <h5 class="card-subtitle text-muted cardTitleMargin">
                 Оценка критиков
               </h5>
               <p class="card-text">{{ filmInfo.rating }}</p>
             </div>
           </div>
 
-          <h5 class="card-subtitle text-muted" style="margin-top: 10px">
+          <h5 class="card-subtitle text-muted cardTitleMargin">
             Описание
           </h5>
           <p class="card-text">{{ filmInfo.description }}</p>
 
           <div *ngIf="awardsList.length > 0">
-            <h5 class="card-subtitle text-muted" style="margin-top: 10px">
+            <h5 class="card-subtitle text-muted cardTitleMargin">
               Награды
             </h5>
             <uL>
@@ -170,8 +170,7 @@
         </div>
       </div>
       <button
-        class="btn btn-secondary"
-        style="margin-top: 30px"
+        class="btn btn-secondary cardMargin"
         data-bs-toggle="modal"
         data-bs-target="#filmEditModal"
       >

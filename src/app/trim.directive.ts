@@ -9,10 +9,8 @@ export class TrimDirective {
 
   @HostListener('blur', ['$event.target', '$event.target.value'])
   onBlur(el: any, value: string) {
-    //console.log('----вывод до трима: ' + el.value)
     if (value.trim() !== value) {
       el.value = value.trim();
     }
-    //console.log('----вывод после трима: ' + el.value)
   }
 }

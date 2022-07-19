@@ -17,25 +17,25 @@
         ></button>
       </div>
       <div class="modal-body">
-        <img [src]="film.bigImg" style="width: 100%; border-radius: 10px" />
+        <img [src]="film.bigImg" class="modalImg" />
       </div>
     </div>
   </div>
 </div>
 
-<div class="list-group" style="margin-bottom: 20px">
+<div class="list-group mainListGroup">
   <div class="list-group-item list-group-item-dark">
     <div class="">
       <div class="row">
         <h2
-          style="cursor: pointer"
+          class="headerCursor"
           [routerLink]="['/films', film.id.toString()]"
         >
           {{ film.name }}
         </h2>
       </div>
       <div class="row">
-        <div class="col-md-2" style="text-align: center">
+        <div class="col-md-2 itemImg">
           <img
             [src]="film.img"
             alt="avatar"

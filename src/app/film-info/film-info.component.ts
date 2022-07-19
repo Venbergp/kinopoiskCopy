@@ -100,7 +100,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
             if (this.filmInfo.awards) {
               for (let i: number = 1; i <= this.filmInfo.awards.length; ++i) {
                 let awardName = this.filmInfo.awards[i - 1];
-                (<FormArray>this.filmForm.controls['awards']).push(
+                (this.filmForm.controls['awards'] as FormArray).push(
                   new FormControl({ value: awardName, disabled: true })
                 );
               }

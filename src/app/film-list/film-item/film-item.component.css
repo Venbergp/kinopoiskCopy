@@ -1,0 +1,16 @@
+.modalImg {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.mainListGroup {
+  margin-bottom: 20px;
+}
+
+.headerCursor {
+  cursor: pointer;
+}
+
+.itemImg {
+  text-align: center;
+}

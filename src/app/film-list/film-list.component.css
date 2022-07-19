@@ -1,0 +1,12 @@
+.headerList {
+  display: flex;
+}
+
+.searchField {
+  align-self: center;
+}
+
+.searchFieldLabel {
+  align-self: center;
+  margin-right: 20px;
+}
