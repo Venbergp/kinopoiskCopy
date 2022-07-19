@@ -24,7 +24,7 @@
 
           <div class="row">
             <mat-form-field>
-              <mat-label>Имя</mat-label>
+              <mat-label>Название</mat-label>
               <input trimDirective matInput formControlName="name" />
             </mat-form-field>
           </div>
@@ -87,7 +87,7 @@
                     [disabled]="
                       !this.filmForm.controls['awardsCheckbox'].getRawValue()
                     "
-                    (click)="removeAdwards(idx)"
+                    (click)="removeAwards(idx)"
                   >
                     X
                   </button>
@@ -103,7 +103,7 @@
               [disabled]="
                 !this.filmForm.controls['awardsCheckbox'].getRawValue()
               "
-              (click)="addNewAdward()"
+              (click)="addNewAward()"
             >
               Добавить новую награду
             </button>

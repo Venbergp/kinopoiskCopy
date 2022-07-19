@@ -37,18 +37,9 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     rating: '',
     year: '',
   };
-  newFilmForm : FilmForm = new FilmForm()
+  filmForm : FilmForm = new FilmForm()
 
 
-  filmForm: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl(''),
-    rating: new FormControl(''),
-    year: new FormControl(''),
-    description: new FormControl(''),
-    awardsCheckbox: new FormControl(),
-    awards: new FormArray([new FormControl('')]),
-  });
   awardsList: FormControl[] = [];
   destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -62,25 +53,20 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
   }
 
   checkboxStatus() {
-    if (this.filmForm.controls['awardsCheckbox'].getRawValue()) {
-      this.filmForm.controls['awards'].enable();
+    if (this.filmForm.awardsCheckbox) {
+      this.filmForm.enableAwards()
     } else {
-      this.filmForm.controls['awards'].disable();
+      this.filmForm.disableAwards()
     }
   }
 
-  addNewAdward() {
-    (this.filmForm.controls['awards'] as FormArray).push(
-      new FormControl({
-        value: '',
-        disabled: !this.filmForm.controls['awardsCheckbox'].getRawValue(),
-      })
-    );
+  addNewAward() {
+    this.filmForm.addNewAward()
   }
 
-  removeAdwards(idx: number) {
-    console.log('удаляю награду номер' + idx);
-    (this.filmForm.controls['awards'] as FormArray).removeAt(idx);
+  removeAwards(idx: number) {
+    this.filmForm.removeAwards(idx)
+
   }
 
   onSubmit() {
@@ -107,34 +93,11 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy))
           .subscribe((value) => {
 
-            this.newFilmForm.setFormFromFilmInfoType(value as FilmInfoType)
-            console.log(this.newFilmForm)
+            this.filmForm.setFormFromFilmInfoType(value as FilmInfoType)
             this.filmInfo = value as FilmInfoType;
 
-            this.filmForm = new FormGroup({
-              id: new FormControl(this.filmInfo.id),
-              name: new FormControl(this.filmInfo.name),
-              rating: new FormControl(this.filmInfo.rating),
-              year: new FormControl(this.filmInfo.year),
-              description: new FormControl(this.filmInfo.description),
-              awardsCheckbox: new FormControl(false),
-              awards: new FormArray([]),
-            });
-
-            if (this.filmInfo.awards) {
-              for (let i: number = 1; i <= this.filmInfo.awards.length; ++i) {
-                let awardName = this.filmInfo.awards[i - 1];
-                (this.filmForm.controls['awards'] as FormArray).push(
-                  new FormControl({ value: awardName, disabled: true })
-                );
-              }
-            }
-
-            this.awardsList = (
-              this.filmForm.controls['awards'] as FormArray
-            ).controls as FormControl[];
+            this.awardsList = this.filmForm.getAwardList()
             this.checkboxStatus();
-
             this.cdr.detectChanges();
           });
       });

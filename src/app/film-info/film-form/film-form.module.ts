@@ -4,32 +4,36 @@ import {FilmInfoType} from "../../finfo/finfo.module";
 export class FilmForm extends FormGroup{
   constructor() {
     super({
-      id: new FormControl(''),
+      id : new FormControl(''),
       name: new FormControl(''),
       rating: new FormControl(''),
       year: new FormControl(''),
       description: new FormControl(''),
       awardsCheckbox: new FormControl(),
-      awards: new FormArray([new FormControl('')]),
+      awards: new FormArray([]),
     });
   }
 
-  public get id() : FormControl {
-    return this.get('id') as FormControl
+  public get awardsCheckbox() {
+    return this.controls["awardsCheckbox"].getRawValue()
   }
 
-  public get idValue() : string {
-    return this.id.value as string
+  public enableAwards() {
+    this.controls['awards'].enable();
+  }
+
+  public disableAwards() {
+    this.controls['awards'].disable();
   }
 
   public setFormFromFilmInfoType(value : FilmInfoType) {
-    this.controls["id"] = new FormControl(value.id)
-    this.controls["name"] = new FormControl(value.name)
-    this.controls["rating"] = new FormControl(value.rating)
-    this.controls["year"] = new FormControl(value.year)
-    this.controls["description"] = new FormControl(value.description)
-    this.controls["awardsCheckbox"] = new FormControl(false)
-    this.controls["awards"] = new FormArray([])
+
+    this.controls["id"].setValue(value.id)
+    this.controls["name"].setValue(value.name)
+    this.controls["rating"].setValue(value.rating)
+    this.controls["year"].setValue(value.year)
+    this.controls["description"].setValue(value.description)
+    this.controls["awardsCheckbox"].setValue(false);
 
     if (value.awards) {
       for (let i: number = 1; i <= value.awards.length; ++i) {
@@ -41,7 +45,7 @@ export class FilmForm extends FormGroup{
     }
   }
 
-  public addNewAdward() {
+  public addNewAward() {
     (this.controls['awards'] as FormArray).push(
       new FormControl({
         value: '',
@@ -50,18 +54,11 @@ export class FilmForm extends FormGroup{
     );
   }
 
-  public removeAdwards(idx: number) {
-    console.log('удаляю награду номер' + idx);
+  public removeAwards(idx: number) {
+    //console.log('удаляю награду номер' + idx);
     (this.controls['awards'] as FormArray).removeAt(idx);
   }
 
-  public checkboxStatus() {
-    if (this.controls['awardsCheckbox'].getRawValue()) {
-      this.controls['awards'].enable();
-    } else {
-      this.controls['awards'].disable();
-    }
-  }
 
   public getAwardList() {
      return(this.controls['awards'] as FormArray).controls as FormControl[]
