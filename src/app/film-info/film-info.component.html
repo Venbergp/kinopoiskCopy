@@ -152,15 +152,11 @@
             </div>
           </div>
 
-          <h5 class="card-subtitle text-muted cardTitleMargin">
-            Описание
-          </h5>
+          <h5 class="card-subtitle text-muted cardTitleMargin">Описание</h5>
           <p class="card-text">{{ filmInfo.description }}</p>
 
           <div *ngIf="awardsList.length > 0">
-            <h5 class="card-subtitle text-muted cardTitleMargin">
-              Награды
-            </h5>
+            <h5 class="card-subtitle text-muted cardTitleMargin">Награды</h5>
             <uL>
               <li *ngFor="let award of filmInfo.awards">
                 <p>{{ award }}</p>

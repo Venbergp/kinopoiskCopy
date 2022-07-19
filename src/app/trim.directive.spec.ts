@@ -8,9 +8,9 @@ describe('TrimDirective', () => {
 
   it('should trim value', () => {
     const directive = new TrimDirective();
-    let el = {value: '   123   '}
-    let value = '   123   '
-    directive.onBlur(el, value)
+    let el = { value: '   123   ' };
+    let value = '   123   ';
+    directive.onBlur(el, value);
     expect(el.value).toEqual('123');
   });
 });

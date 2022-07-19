@@ -34,23 +34,19 @@ export class ProfileComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isLoading = true;
-        this.cdr.detectChanges();
       }
 
       if (event instanceof NavigationEnd) {
         this.isLoading = false;
-        this.cdr.detectChanges();
       }
 
       if (event instanceof NavigationCancel) {
         this.isLoading = false;
-        this.cdr.detectChanges();
       }
     });
   }
 
-  ngOnInit(): void {
-    this.cdr.detectChanges();
+  ngOnInit() {
   }
 
   editSuperuserAccess() {

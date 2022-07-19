@@ -7,9 +7,18 @@ import {
 } from '@angular/core';
 import { GetDataService } from '../get-data.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import {FilmInfoType} from "../finfo/finfo.module";
+import {FilmForm} from "./film-form/film-form.module";
+
+
 
 @Component({
   selector: 'app-film-info',
@@ -18,7 +27,19 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilmInfoComponent implements OnInit, OnDestroy {
-  filmInfo: any = {};
+  filmInfo: FilmInfoType = {
+    awards: [],
+    bigImg: '',
+    description: '',
+    id: 0,
+    img: '',
+    name: '',
+    rating: '',
+    year: '',
+  };
+  newFilmForm : FilmForm = new FilmForm()
+
+
   filmForm: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
@@ -28,7 +49,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     awardsCheckbox: new FormControl(),
     awards: new FormArray([new FormControl('')]),
   });
-  awardsList: any = [];
+  awardsList: Array<FormControl> = [];
   destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
@@ -37,7 +58,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {
-    //console.log(dataService)
+    //console.log(this.newFilmForm.idValue)
   }
 
   checkboxStatus() {
@@ -49,7 +70,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
   }
 
   addNewAdward() {
-    (<FormArray>this.filmForm.controls['awards']).push(
+    (this.filmForm.controls['awards'] as FormArray).push(
       new FormControl({
         value: '',
         disabled: !this.filmForm.controls['awardsCheckbox'].getRawValue(),
@@ -59,7 +80,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
 
   removeAdwards(idx: number) {
     console.log('удаляю награду номер' + idx);
-    (<FormArray>this.filmForm.controls['awards']).removeAt(idx);
+    (this.filmForm.controls['awards'] as FormArray).removeAt(idx);
   }
 
   onSubmit() {
@@ -74,7 +95,7 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
     this.filmInfo.year = this.filmForm.value.year;
     this.filmInfo.name = this.filmForm.value.name;
 
-    this.dataService.loadFilm(this.filmInfo);
+    this.dataService.loadFilm(this.filmInfo).subscribe(() => {})
   }
 
   ngOnInit(): void {
@@ -85,7 +106,10 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
           .getFilmById(params['id'])
           .pipe(takeUntil(this.destroy))
           .subscribe((value) => {
-            this.filmInfo = value;
+
+            this.newFilmForm.setFormFromFilmInfoType(value as FilmInfoType)
+            console.log(this.newFilmForm)
+            this.filmInfo = value as FilmInfoType;
 
             this.filmForm = new FormGroup({
               id: new FormControl(this.filmInfo.id),
@@ -106,9 +130,9 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
               }
             }
 
-            this.awardsList = (<FormArray>(
-              this.filmForm.controls['awards']
-            )).controls;
+            this.awardsList = (
+              this.filmForm.controls['awards'] as FormArray
+            ).controls as FormControl[];
             this.checkboxStatus();
 
             this.cdr.detectChanges();

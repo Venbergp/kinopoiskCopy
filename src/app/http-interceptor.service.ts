@@ -9,6 +9,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { delay, EMPTY, Observable, Observer, of, tap } from 'rxjs';
+import {FilmInfoType} from "./finfo/finfo.module";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
@@ -74,7 +75,6 @@ export class HttpInterceptorService implements HttpInterceptor {
       awards: ['Награда1', 'Награда2', 'Награда3'],
     },
   ];
-  filmList: any[] = [];
 
   constructor() {
     this.setDB();
@@ -89,40 +89,32 @@ export class HttpInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+
     // return of(new HttpResponse({body: localStorage.getItem('localFilmList')}))
 
     if (req.method === 'GET') {
       let requestSplited: string[] = req.url.split('/').slice(3);
-
       // Запрос списка фильмов
       if (requestSplited[0] == 'films' && requestSplited.length == 1) {
-        let resp: any = new Observable((obs) => {
-          let films: string | null = localStorage.getItem('localFilmList');
-          if (typeof films == 'string') {
-            let resp = new HttpResponse({ body: JSON.parse(films) });
-            obs.next(resp);
-          }
-        }).pipe(delay(200));
-
-        return resp;
+        let films: string | null = localStorage.getItem('localFilmList');
+        if (typeof films == 'string') {
+          let resp = new HttpResponse({ body: JSON.parse(films) });
+          return of(resp).pipe(delay(200));
+        }
       }
 
       // Запрос фильма по id
       if (requestSplited[0] == 'films' && requestSplited.length == 2) {
         let id = +requestSplited[1];
         if (!isNaN(id)) {
-          let films: any = localStorage.getItem('localFilmList');
+          let films: string = localStorage.getItem('localFilmList') as string;
           if (typeof films == 'string') {
-            films = JSON.parse(films);
+            let parsedFilms : FilmInfoType[] = JSON.parse(films);
 
-            for (let film of films) {
+            for (let film of parsedFilms) {
               if (film.id == id) {
-                let resp: any = new Observable((obs) => {
-                  let resp = new HttpResponse({ body: film });
-                  //console.log(film)
-                  obs.next(resp);
-                }).pipe(delay(200));
-                return resp;
+                let resp = new HttpResponse({ body: film });
+                return of(resp).pipe(delay(200));
               }
             }
           }
@@ -134,7 +126,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       let newFilmInfo = req.body;
       let s: string | null = localStorage.getItem('localFilmList');
       if (typeof s == 'string') {
-        let filmList: any = JSON.parse(s);
+        let filmList: FilmInfoType[] = JSON.parse(s);
         for (let i = 0; i < filmList.length; i++) {
           if (filmList[i].id == newFilmInfo.id) {
             filmList[i] = newFilmInfo;

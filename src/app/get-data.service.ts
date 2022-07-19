@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { delay, Observable, Observer } from 'rxjs';
+import {FilmInfoType} from "./finfo/finfo.module";
 
 // Задание: положить данные в локал сторадж и через интерсептор к ним обращаться. В мэйн тс проверять лежат ли они там, если данных нету, то класть их туда
 
@@ -10,19 +11,21 @@ import { delay, Observable, Observer } from 'rxjs';
 export class GetDataService {
   constructor(private http: HttpClient) {}
 
-  testRequest(): any {
-    return this.http.get('http://localhost:4200/films/2');
+  testRequest(): Observable<FilmInfoType> {
+    return this.http.get('http://localhost:4200/films/2') as Observable<FilmInfoType>;
   }
 
-  loadFilm(filmInfo: any): any {
-    this.http.post('http://localhost:4200', filmInfo)
+  loadFilm(filmInfo: FilmInfoType) : Observable<FilmInfoType> {
+    console.log('делаю пост запрос')
+    console.log(filmInfo)
+    return this.http.post('http://localhost:4200', filmInfo) as Observable<FilmInfoType>;
   }
 
-  getFilmList(): any {
-    return this.http.get('http://localhost:4200/films');
+  getFilmList(): Observable<FilmInfoType[]> {
+    return this.http.get('http://localhost:4200/films') as Observable<FilmInfoType[]>;
   }
 
-  getFilmById(id: Number) {
-    return this.http.get('http://localhost:4200/films/' + id);
+  getFilmById(id: Number) : Observable<FilmInfoType> {
+    return this.http.get('http://localhost:4200/films/' + id) as Observable<FilmInfoType>;
   }
 }

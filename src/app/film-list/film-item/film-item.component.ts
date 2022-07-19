@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { FilmInfoType } from '../../finfo/finfo.module';
 
 @Component({
   selector: 'app-film-item',
@@ -12,22 +13,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilmItemComponent implements OnInit {
-  @Input() film: {
-    id: number | string;
-    img: string;
-    bigImg: string;
-    name: number | string;
-    rating: number | string;
-    year: number | string;
-    description: string;
-  } = {
-    id: '',
-    img: '',
+  @Input() film: FilmInfoType = {
+    awards: [],
     bigImg: '',
+    description: '',
+    img: '',
     name: '',
     rating: '',
     year: '',
-    description: '',
+    id: 0,
   };
 
   constructor() {}

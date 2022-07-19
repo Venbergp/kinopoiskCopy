@@ -3,6 +3,7 @@ import { combineLatestWith, map, Observable, of, startWith } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GetDataService } from '../get-data.service';
 import { FormControl } from '@angular/forms';
+import {FilmInfoType} from "../finfo/finfo.module";
 
 @Component({
   selector: 'app-film-list',
@@ -12,28 +13,33 @@ import { FormControl } from '@angular/forms';
 })
 export class FilmListComponent implements OnInit {
   inputFilmName: FormControl = new FormControl('');
-  inputFilmName$: Observable<any> = this.inputFilmName.valueChanges.pipe(
+  inputFilmName$: Observable<string> = this.inputFilmName.valueChanges.pipe(
     debounceTime(500),
-    startWith(''),
+    startWith('')
   );
+
   films$ = this.dataService.getFilmList();
-  filteredFilms$: Observable<any> = of([]);
+  filteredFilms$: Observable<
+    FilmInfoType[]
+  > = of([]);
 
   constructor(private dataService: GetDataService) {}
 
   ngOnInit(): void {
+
     this.filteredFilms$ = this.inputFilmName$.pipe(
       combineLatestWith(this.films$),
-      map((e1: any[]) => {
-        return this._filter(e1[0], e1[1]);
+      map((e1: [string, FilmInfoType[] | unknown]) => {
+        return _filter(e1[0], e1[1] as FilmInfoType[]);
       })
     );
-  }
 
-  private _filter(value: string, array: any[]): any[] {
-    const filterValue = value.toLowerCase();
-    return array.filter((option) =>
-      option.name.toLowerCase().includes(filterValue)
-    );
+    const _filter = function (value: string, array: FilmInfoType[]): FilmInfoType[] {
+      const filterValue = value.toLowerCase();
+
+      return array.filter((option) =>
+        option.name.toLowerCase().includes(filterValue)
+      );
+    };
   }
 }
