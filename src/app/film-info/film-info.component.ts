@@ -98,7 +98,6 @@ export class FilmInfoComponent implements OnInit, OnDestroy {
 
             this.awardsList = this.filmForm.getAwardList()
             this.checkboxStatus();
-            this.cdr.detectChanges();
           });
       });
   }

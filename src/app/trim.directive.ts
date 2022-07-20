@@ -8,7 +8,8 @@ export class TrimDirective {
   constructor() {}
 
   @HostListener('blur', ['$event.target', '$event.target.value'])
-  onBlur(el: any, value: string) {
+  onBlur(el: HTMLInputElement, value: string) {
+
     if (value.trim() !== value) {
       el.value = value.trim();
     }

@@ -45,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GetDataService } from '../get-data.service';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import {FilmInfoType} from "../finfo/finfo.module";
+import {FilmForm} from "./film-form/film-form.module";
 
 describe('FilmInfoComponent', () => {
   let component: FilmInfoComponent;
@@ -115,23 +116,7 @@ describe('FilmInfoComponent', () => {
         'В тюрьме для смертников появляется заключенный с божественным даром. Мистическая драма по роману Стивена Кинга',
       awards: ['Награда1', 'Награда2', 'Награда3'],
     } as FilmInfoType;
-    component.filmForm = new FormGroup({
-      id: new FormControl(component.filmInfo.id),
-      name: new FormControl(component.filmInfo.name),
-      rating: new FormControl(component.filmInfo.rating),
-      year: new FormControl(component.filmInfo.year),
-      description: new FormControl(component.filmInfo.description),
-      awardsCheckbox: new FormControl(false),
-      awards: new FormArray([]),
-    });
-    if (component.filmInfo.awards) {
-      for (let i: number = 1; i <= component.filmInfo.awards.length; ++i) {
-        let awardName = component.filmInfo.awards[i - 1];
-        (<FormArray>component.filmForm.controls['awards']).push(
-          new FormControl({ value: awardName, disabled: true })
-        );
-      }
-    }
+    component.filmForm.setFormFromFilmInfoType(component.filmInfo)
 
     component.filmForm.controls['name'].setValue('    123         ');
     let input = fixture.debugElement.queryAll(By.css('input'))[0];
@@ -166,9 +151,9 @@ describe('FilmInfoComponent', () => {
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        console.log(
-          fixture.debugElement.query(By.css('div.modal')).nativeElement
-        );
+        // console.log(
+        //   fixture.debugElement.query(By.css('div.modal')).nativeElement
+        // );
       });
     }
   }));
