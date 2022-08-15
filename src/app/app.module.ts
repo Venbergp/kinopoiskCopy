@@ -52,7 +52,6 @@ import { SuperuserAuthGuardService } from './superuser-auth-guard.service';
     MatIconModule,
   ],
   providers: [
-    GetDataService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
